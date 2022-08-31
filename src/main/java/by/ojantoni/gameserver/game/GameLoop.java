@@ -8,11 +8,10 @@ public class GameLoop extends ApplicationAdapter {
 
     @Override
     public void create() {
-
     }
-
     @Override
     public void render() {
 
     }
+
 }
