@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EventServer {
+public class GameServer {
     public static void main(String[] args) {
-        SpringApplication.run(EventServer.class, args);
+        SpringApplication.run(GameServer.class, args);
     }
 }

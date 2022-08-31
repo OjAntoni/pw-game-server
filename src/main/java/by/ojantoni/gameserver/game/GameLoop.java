@@ -1,4 +1,4 @@
-package by.ojantoni.gameserver;
+package by.ojantoni.gameserver.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import org.springframework.stereotype.Component;
