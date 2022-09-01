@@ -1,8 +1,9 @@
-package by.ojantoni.gameserver.ws.player;
+package by.ojantoni.gameserver.ws;
 
 import by.ojantoni.gameserver.ws.ConnectionClosedHandler;
 import by.ojantoni.gameserver.ws.ConnectionEstablishedHandler;
 import by.ojantoni.gameserver.ws.TextMessageHandler;
+import by.ojantoni.gameserver.ws.player.PlayersHandlers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.List;
 
 @Component
-public class PlayersWebSocketEventHandler extends TextWebSocketHandler implements WebSocketHandler {
+public class WebSocketEventHandler extends TextWebSocketHandler implements WebSocketHandler {
     @Autowired
     @PlayersHandlers
     List<ConnectionEstablishedHandler> connectionEstablishedHandlers;
@@ -25,6 +26,9 @@ public class PlayersWebSocketEventHandler extends TextWebSocketHandler implement
     @PlayersHandlers
     List<ConnectionClosedHandler> connectionClosedHandlers;
 
+    @Autowired
+    MessageResolver messageResolver;
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         connectionEstablishedHandlers.forEach(h -> h.handle(session));
@@ -32,7 +36,8 @@ public class PlayersWebSocketEventHandler extends TextWebSocketHandler implement
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-        textMessageHandlers.forEach(h -> h.handle(session, message));
+        messageResolver.resolveMessages(message.getPayload());
+        //textMessageHandlers.forEach(h -> h.handle(session, message));
     }
 
     @Override
