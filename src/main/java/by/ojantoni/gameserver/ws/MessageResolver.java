@@ -1,14 +1,10 @@
 package by.ojantoni.gameserver.ws;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
+import web.messages.SimpleMessage;
+import web.messages.types.MessageTypes;
 
-@Component
-public class MessageResolver {
-    @Autowired
-    private ObjectMapper mapper;
-
-    public void resolveMessages(String payload) {
-    }
+public interface MessageResolver {
+    void resolve(WebSocketSession session, SimpleMessage message);
+    MessageTypes getHandledMessageType();
 }

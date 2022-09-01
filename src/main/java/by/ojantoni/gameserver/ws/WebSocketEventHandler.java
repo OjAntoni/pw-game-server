@@ -1,8 +1,5 @@
 package by.ojantoni.gameserver.ws;
 
-import by.ojantoni.gameserver.ws.ConnectionClosedHandler;
-import by.ojantoni.gameserver.ws.ConnectionEstablishedHandler;
-import by.ojantoni.gameserver.ws.TextMessageHandler;
 import by.ojantoni.gameserver.ws.player.PlayersHandlers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +24,7 @@ public class WebSocketEventHandler extends TextWebSocketHandler implements WebSo
     List<ConnectionClosedHandler> connectionClosedHandlers;
 
     @Autowired
-    MessageResolver messageResolver;
+    MessageHandler messageHandler;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -36,7 +33,7 @@ public class WebSocketEventHandler extends TextWebSocketHandler implements WebSo
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-        messageResolver.resolveMessages(message.getPayload());
+        messageHandler.resolveMessages(session, message.getPayload());
         //textMessageHandlers.forEach(h -> h.handle(session, message));
     }
 

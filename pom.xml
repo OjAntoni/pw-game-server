@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.github.ojAntoni</groupId>
             <artifactId>pw-game-shared</artifactId>
-            <version>2b3c0b0ea085946bb21ef4f7a891fed58b8c01fd</version>
+            <version>master-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
