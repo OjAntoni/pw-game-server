@@ -3,14 +3,11 @@ package by.ojantoni.gameserver.ws;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class SessionRegistry {
-    private final Set<WebSocketSession> sessions = new HashSet<>();
+    private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
     public void add(WebSocketSession session) {
         if (session != null) {

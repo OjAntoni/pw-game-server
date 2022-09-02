@@ -14,7 +14,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     WebSocketEventHandler eventHandler;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(eventHandler, "/players/positions")
+        registry.addHandler(eventHandler, "/game")
                 .setAllowedOrigins("*");
     }
 

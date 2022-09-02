@@ -1,5 +1,6 @@
 package by.ojantoni.gameserver.actors;
 
+import by.ojantoni.gameserver.messages.core.Coordinates;
 import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Timer;
@@ -11,8 +12,8 @@ public class Player{
     private boolean isStopped;
     private final Rectangle rectangle;
     @Getter
-    private final String id;
-    public Player(CoordinatesDto coordinates, String id) {
+    private final int id;
+    public Player(Coordinates coordinates, int id) {
         rectangle = new Rectangle();
         rectangle.width = 49;
         rectangle.height = 49;
@@ -21,11 +22,11 @@ public class Player{
         this.id = id;
     }
 
-    public CoordinatesDto getCoordinatesDto() {
-        return new CoordinatesDto(rectangle.x, rectangle.y, id);
+    public Coordinates getCoordinates() {
+        return new Coordinates(rectangle.x, rectangle.y);
     }
 
-    public void setCoordinates(CoordinatesDto coordinates) {
+    public void setCoordinates(Coordinates coordinates) {
         if(isStopped){
             return;
         }
