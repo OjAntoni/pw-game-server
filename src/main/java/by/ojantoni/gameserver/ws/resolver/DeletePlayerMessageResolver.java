@@ -1,9 +1,9 @@
 package by.ojantoni.gameserver.ws.resolver;
 
-import by.ojantoni.gameserver.actors.PlayersRegistry;
-import by.ojantoni.gameserver.messages.messages.SimpleMessage;
-import by.ojantoni.gameserver.messages.messages.dto.PlayerPositionDto;
-import by.ojantoni.gameserver.messages.messages.types.MessageType;
+import by.ojantoni.gameserver.actors.registry.PlayersRegistry;
+import by.ojantoni.gameserver.messages.SimpleMessage;
+import by.ojantoni.gameserver.messages.dto.PlayerPositionDto;
+import by.ojantoni.gameserver.messages.types.MessageType;
 import by.ojantoni.gameserver.ws.SessionRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;

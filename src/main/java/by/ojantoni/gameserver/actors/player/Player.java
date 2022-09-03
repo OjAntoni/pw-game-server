@@ -1,4 +1,4 @@
-package by.ojantoni.gameserver.actors;
+package by.ojantoni.gameserver.actors.player;
 
 import by.ojantoni.gameserver.messages.core.Coordinates;
 import by.ojantoni.gameserver.util.Properties;

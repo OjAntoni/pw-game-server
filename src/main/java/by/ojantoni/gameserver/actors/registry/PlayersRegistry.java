@@ -1,5 +1,6 @@
-package by.ojantoni.gameserver.actors;
+package by.ojantoni.gameserver.actors.registry;
 
+import by.ojantoni.gameserver.actors.player.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

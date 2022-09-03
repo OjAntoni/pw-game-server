@@ -1,14 +1,13 @@
 package by.ojantoni.gameserver.ws.resolver;
 
-import by.ojantoni.gameserver.actors.Player;
-import by.ojantoni.gameserver.actors.PlayersRegistry;
-import by.ojantoni.gameserver.messages.messages.SimpleMessage;
-import by.ojantoni.gameserver.messages.messages.dto.PlayerPositionDto;
-import by.ojantoni.gameserver.messages.messages.types.MessageType;
+import by.ojantoni.gameserver.actors.player.Player;
+import by.ojantoni.gameserver.actors.registry.PlayersRegistry;
+import by.ojantoni.gameserver.messages.SimpleMessage;
+import by.ojantoni.gameserver.messages.dto.PlayerPositionDto;
+import by.ojantoni.gameserver.messages.types.MessageType;
 import by.ojantoni.gameserver.ws.SessionRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -43,8 +42,6 @@ public class PlayerCoordMessageResolver implements MessageResolver {
                     s.sendMessage(new TextMessage(objectMapper.writeValueAsString(toSend)));
                 }
             }
-
-
     }
 
     @Override

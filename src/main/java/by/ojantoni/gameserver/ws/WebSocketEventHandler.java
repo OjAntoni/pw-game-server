@@ -1,5 +1,8 @@
 package by.ojantoni.gameserver.ws;
 
+import by.ojantoni.gameserver.game.GameManagementService;
+import by.ojantoni.gameserver.game.LevelScheduler;
+import by.ojantoni.gameserver.util.InGameTimer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,14 +19,20 @@ import java.util.List;
 @Slf4j
 public class WebSocketEventHandler extends TextWebSocketHandler implements WebSocketHandler {
     @Autowired
-    MessageHandler messageHandler;
+    private MessageHandler messageHandler;
     @Autowired
     private SessionRegistry sessionRegistry;
+
+    @Autowired
+    private GameManagementService gameService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         log.info("Connection established with session " + session);
         sessionRegistry.add(session);
+        if(sessionRegistry.getAll().size()==1){
+            gameService.startGameSession();
+        }
     }
 
     @Override
@@ -36,5 +45,8 @@ public class WebSocketEventHandler extends TextWebSocketHandler implements WebSo
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) {
         log.info("Connection closed with session " + session);
         sessionRegistry.remove(session);
+        if(sessionRegistry.getAll().size()==0){
+            gameService.endGameSession();
+        }
     }
 }

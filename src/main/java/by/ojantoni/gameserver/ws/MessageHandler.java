@@ -1,7 +1,7 @@
 package by.ojantoni.gameserver.ws;
 
-import by.ojantoni.gameserver.messages.messages.SimpleMessage;
-import by.ojantoni.gameserver.messages.messages.types.MessageType;
+import by.ojantoni.gameserver.messages.SimpleMessage;
+import by.ojantoni.gameserver.messages.types.MessageType;
 import by.ojantoni.gameserver.ws.resolver.MessageResolver;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,8 +33,7 @@ public class MessageHandler {
     @SneakyThrows
     public void resolveMessages(WebSocketSession session, String payload) {
         log.info("Resolving " + payload);
-        List<SimpleMessage> simpleMessages = mapper.readValue(payload, new TypeReference<>() {
-        });
+        List<SimpleMessage> simpleMessages = mapper.readValue(payload, new TypeReference<>() {});
         simpleMessages.forEach(m -> resolvers.get(m.type).resolve(session, m));
     }
 }

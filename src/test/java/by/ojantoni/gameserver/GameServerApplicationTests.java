@@ -8,6 +8,7 @@ class GameServerApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

@@ -1,4 +1,4 @@
-package by.ojantoni.gameserver.messages.messages.dto;
+package by.ojantoni.gameserver.messages.dto;
 
 import by.ojantoni.gameserver.messages.core.Coordinates;
 import lombok.AllArgsConstructor;
