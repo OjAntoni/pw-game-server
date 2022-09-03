@@ -15,6 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class PlayerCoordMessageResolver implements MessageResolver {
@@ -36,12 +37,7 @@ public class PlayerCoordMessageResolver implements MessageResolver {
             PlayerPositionDto positionDto = new PlayerPositionDto(player.getCoordinates(), player.getId());
             toSend.add(new SimpleMessage(MessageType.PLAYER_COORD, objectMapper.writeValueAsString(positionDto)));
         }
-        List<WebSocketSession> sessions = sessionRegistry.getAll();
-            for (WebSocketSession s : sessions) {
-                synchronized (s){
-                    s.sendMessage(new TextMessage(objectMapper.writeValueAsString(toSend)));
-                }
-            }
+        sessionRegistry.sendToAll(new TextMessage(objectMapper.writeValueAsString(toSend)));
     }
 
     @Override

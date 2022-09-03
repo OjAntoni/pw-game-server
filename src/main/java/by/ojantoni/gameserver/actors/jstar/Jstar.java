@@ -27,11 +27,11 @@ public class Jstar extends AbstractActor {
     private double pace;
 
     @PostConstruct
-    private void init(){
-        normalJstar=true;
-        stoppedJstar=false;
+    private void init() {
+        normalJstar = true;
+        stoppedJstar = false;
         rectangle = new Rectangle();
-        rectangle.x = MathUtils.random(0, Properties.SCREEN_WIDTH-rectangle.width);
+        rectangle.x = MathUtils.random(0, Properties.SCREEN_WIDTH - rectangle.width);
         rectangle.y = 20;
         pace = 0.01;
     }
@@ -39,13 +39,13 @@ public class Jstar extends AbstractActor {
     @Override
     public void stop(int secondsDelay) {
         leftTimeToBeStopped = secondsDelay;
-        stoppedJstar=true;
-        normalJstar=false;
+        stoppedJstar = true;
+        normalJstar = false;
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                stoppedJstar=false;
-                normalJstar=true;
+                stoppedJstar = false;
+                normalJstar = true;
             }
         }, secondsDelay, 0, 1);
     }
@@ -56,7 +56,7 @@ public class Jstar extends AbstractActor {
             @Override
             public void run() {
                 timeAlive++;
-                if(leftTimeToBeStopped>0){
+                if (leftTimeToBeStopped > 0) {
                     leftTimeToBeStopped--;
                 }
             }
@@ -65,16 +65,16 @@ public class Jstar extends AbstractActor {
 
     @Override
     public boolean canBeMoved() {
-        return leftTimeToBeStopped==0 && playerToSneak!=null;
+        return leftTimeToBeStopped == 0;
     }
 
     @Override
     public void calculateNewCoordinates() {
-        if(canBeMoved()){
-            setNearestPlayer();
+        setNearestPlayer();
+        if (canBeMoved() && playerToSneak!=null) {
             Coordinates coord = playerToSneak.getCoordinates();
-            rectangle.y = (float) (rectangle.y + ((coord.y - rectangle.y)/Math.abs(coord.y - rectangle.y))*pace/10);
-            rectangle.x = (float) (rectangle.x + ((coord.x - rectangle.x)/Math.abs(coord.x - rectangle.x))*pace/10);
+            rectangle.y = (float) (rectangle.y + ((coord.y - rectangle.y) / Math.abs(coord.y - rectangle.y)) * pace / 10);
+            rectangle.x = (float) (rectangle.x + ((coord.x - rectangle.x) / Math.abs(coord.x - rectangle.x)) * pace / 10);
         }
         incrementPace();
     }
@@ -86,7 +86,7 @@ public class Jstar extends AbstractActor {
         for (Player player : all) {
             Coordinates coordinates = player.getCoordinates();
             float dst = Vector2.dst(rectangle.x, rectangle.y, coordinates.x, coordinates.y);
-            if(dst<minDistance){
+            if (dst < minDistance) {
                 minDistance = dst;
                 nearestPlayer = player;
             }
@@ -100,7 +100,7 @@ public class Jstar extends AbstractActor {
 
     @Override
     public void pause() {
-        if(jstarschedule!=null){
+        if (jstarschedule != null) {
             jstarschedule.cancel();
         }
     }
@@ -114,4 +114,6 @@ public class Jstar extends AbstractActor {
     public String getId() {
         return "jstar";
     }
+
+
 }

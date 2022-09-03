@@ -37,14 +37,12 @@ public class GameManagementService implements LevelListener{
         List<SimpleMessage> toSend = states.stream()
                 .map(s -> new SimpleMessage(MessageType.ACTOR_STATE, toJson(s)))
                 .collect(Collectors.toList());
-        log.info("Sending current actors states: " + toSend);
-        for (WebSocketSession s : sessionRegistry.getAll()) {
-            s.sendMessage(new TextMessage(toJson(toSend)));
-        }
+        if(!toSend.isEmpty())
+            log.info("Sending current actors states: " + toSend);
+        sessionRegistry.sendToAll(new TextMessage(toJson(toSend)));
     }
 
     public void updateActors() {
-        log.info("Updating actors positions");
         actorsRegistry.deleteDeadActors();
         actorsRegistry.updatePositions();
     }

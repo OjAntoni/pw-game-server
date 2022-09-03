@@ -28,9 +28,10 @@ public class DeletePlayerMessageResolver implements MessageResolver {
     public void resolve(WebSocketSession session, SimpleMessage message) {
         PlayerPositionDto dto = objectMapper.readValue(message.payload, PlayerPositionDto.class);
         playersRegistry.remove(dto.playerId);
-        for (WebSocketSession s : sessionRegistry.getAll()) {
-            s.sendMessage(new TextMessage(objectMapper.writeValueAsString(List.of(new SimpleMessage(MessageType.DELETE_PLAYER, message.payload)))));
-        }
+        sessionRegistry.sendToAll(
+                new TextMessage(objectMapper.writeValueAsString(List.of(new SimpleMessage(MessageType.DELETE_PLAYER, message.payload))))
+        );
+
     }
 
     @Override

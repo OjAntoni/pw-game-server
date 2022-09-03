@@ -1,6 +1,8 @@
 package by.ojantoni.gameserver.ws;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
@@ -24,7 +26,14 @@ public class SessionRegistry {
         sessions.removeIf(s -> s.getId().equals(sessionId));
     }
 
-    public List<WebSocketSession> getAll(){
-        return new ArrayList<>(sessions);
+    public Set<WebSocketSession> getAll(){
+        return sessions;
+    }
+
+    @SneakyThrows
+    public synchronized void sendToAll(TextMessage textMessage){
+        for (WebSocketSession session : sessions) {
+            session.sendMessage(textMessage);
+        }
     }
 }
