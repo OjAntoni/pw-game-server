@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class GameManagementService implements LevelListener{
+public class GameManagementService{
     @Autowired
     private ActorsRegistry actorsRegistry;
     @Autowired
@@ -62,8 +62,4 @@ public class GameManagementService implements LevelListener{
         return objectMapper.writeValueAsString(o);
     }
 
-    @Override
-    public void onLevelChange(int level) {
-
-    }
 }

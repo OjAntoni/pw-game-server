@@ -5,12 +5,13 @@ import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.utils.Timer;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class LevelScheduler implements GameSessionListener{
+public class LevelScheduler implements GameSessionListener {
     private Timer.Task scheduleForLevels;
     @Autowired
     private ActorsRegistry actorsRegistry;
@@ -42,10 +43,11 @@ public class LevelScheduler implements GameSessionListener{
         scheduleForLevels = Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                actorsRegistry.updateInGameActors(GameLevel.getLevel(level % 4 + 1));
                 level++;
+                levelListeners.forEach(listener -> listener.onLevelChange(level));
+                level = (level>GameLevel.LEVELS_NUMBER) ? 1: level;
             }
-        }, 0f, Properties.LEVEL_DURATION);
+        }, 2f, Properties.LEVEL_DURATION);
     }
 
     @Override
@@ -54,4 +56,5 @@ public class LevelScheduler implements GameSessionListener{
             scheduleForLevels.cancel();
         }
     }
+
 }

@@ -3,6 +3,7 @@ package by.ojantoni.gameserver.actors.jstar;
 import by.ojantoni.gameserver.actors.AbstractActor;
 import by.ojantoni.gameserver.actors.player.Player;
 import by.ojantoni.gameserver.actors.registry.PlayersRegistry;
+import by.ojantoni.gameserver.game.GameSessionListener;
 import by.ojantoni.gameserver.messages.core.Coordinates;
 import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.math.MathUtils;
@@ -16,7 +17,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component(value = "jstar")
-public class Jstar extends AbstractActor {
+public class Jstar extends AbstractActor implements GameSessionListener {
     @Autowired
     private PlayersRegistry playersRegistry;
     private Timer.Task jstarschedule;
@@ -116,4 +117,13 @@ public class Jstar extends AbstractActor {
     }
 
 
+    @Override
+    public void onGameSessionCreate() {
+        pace = 0.01;
+    }
+
+    @Override
+    public void onGameSessionEnd() {
+        pace = 0;
+    }
 }

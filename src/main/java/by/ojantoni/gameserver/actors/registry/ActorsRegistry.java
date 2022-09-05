@@ -3,10 +3,12 @@ package by.ojantoni.gameserver.actors.registry;
 import by.ojantoni.gameserver.actors.AbstractActor;
 import by.ojantoni.gameserver.game.GameLevel;
 import by.ojantoni.gameserver.game.GameSessionListener;
+import by.ojantoni.gameserver.game.LevelListener;
 import by.ojantoni.gameserver.messages.core.Coordinates;
 import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.utils.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ActorsRegistry implements GameSessionListener {
+public class ActorsRegistry implements GameSessionListener, LevelListener {
     @Autowired
     private Map<String, AbstractActor> allActors;
     private HashMap<String, AbstractActor> currentInGameActors = new HashMap<>();
@@ -75,5 +77,10 @@ public class ActorsRegistry implements GameSessionListener {
     public void onGameSessionEnd() {
         allActors.values().forEach(AbstractActor::pause);
         currentInGameActors.clear();
+    }
+
+    @Override
+    public void onLevelChange(int level) {
+        updateInGameActors(GameLevel.getLevel(level));
     }
 }

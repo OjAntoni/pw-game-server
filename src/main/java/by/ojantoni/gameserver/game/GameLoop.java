@@ -37,10 +37,4 @@ public class GameLoop extends ApplicationAdapter {
         gameService.sendActorStatesToPlayers();
     }
 
-
-
-
-
-
-
 }
