@@ -70,7 +70,6 @@ public class ActorsRegistry implements GameSessionListener, LevelListener {
 
     @Override
     public void onGameSessionCreate() {
-
     }
 
     @Override
