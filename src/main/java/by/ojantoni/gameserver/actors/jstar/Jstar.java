@@ -29,11 +29,11 @@ public class Jstar extends AbstractActor implements GameSessionListener {
 
     @PostConstruct
     private void init() {
+        rectangle = new Rectangle();
         rectangle.x = MathUtils.random(0, Properties.SCREEN_WIDTH - rectangle.width);
         rectangle.y = 20;
         normalJstar = true;
         stoppedJstar = false;
-        rectangle = new Rectangle();
         pace = 0.01;
     }
 
