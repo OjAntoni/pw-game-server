@@ -33,7 +33,9 @@ public class SessionRegistry {
     @SneakyThrows
     public synchronized void sendToAll(TextMessage textMessage){
         for (WebSocketSession session : sessions) {
-            session.sendMessage(textMessage);
+            if(session.isOpen()){
+                session.sendMessage(textMessage);
+            }
         }
     }
 }

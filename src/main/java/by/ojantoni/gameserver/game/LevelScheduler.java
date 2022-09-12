@@ -4,6 +4,7 @@ import by.ojantoni.gameserver.actors.registry.ActorsRegistry;
 import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.utils.Timer;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 public class LevelScheduler implements GameSessionListener {
     private Timer.Task scheduleForLevels;
-    @Autowired
-    private ActorsRegistry actorsRegistry;
 
     @Autowired(required = false)
     private List<LevelListener> levelListeners;
@@ -28,6 +28,7 @@ public class LevelScheduler implements GameSessionListener {
                 level++;
                 levelListeners.forEach(listener -> listener.onLevelChange(level));
                 level = (level==GameLevel.LEVELS_NUMBER) ? 1: level;
+                log.info("current level = "+level);
             }
         }, 0f, Properties.LEVEL_DURATION);
     }
@@ -47,7 +48,7 @@ public class LevelScheduler implements GameSessionListener {
                 levelListeners.forEach(listener -> listener.onLevelChange(level));
                 level = (level>GameLevel.LEVELS_NUMBER) ? 1: level;
             }
-        }, 2f, Properties.LEVEL_DURATION);
+        }, 0f, Properties.LEVEL_DURATION);
     }
 
     @Override

@@ -70,12 +70,13 @@ public class ActorsRegistry implements GameSessionListener, LevelListener {
 
     @Override
     public void onGameSessionCreate() {
+        updateInGameActors(GameLevel.ONE);
     }
 
     @Override
     public void onGameSessionEnd() {
         allActors.values().forEach(AbstractActor::pause);
-        currentInGameActors.clear();
+
     }
 
     @Override

@@ -34,10 +34,13 @@ public class GameManagementService{
     public void sendActorStatesToPlayers() {
         List<ActorState> states = new ArrayList<>();
         actorsRegistry.getAll().forEach(a -> states.add(new ActorState(a.getId(), a.getState())));
+        if(states.isEmpty()){
+            return;
+        }
         List<SimpleMessage> toSend = states.stream()
                 .map(s -> new SimpleMessage(MessageType.ACTOR_STATE, toJson(s)))
                 .collect(Collectors.toList());
-        if(!toSend.isEmpty())
+        if(!toSend.isEmpty() && !sessionRegistry.getAll().isEmpty())
             log.info("Sending current actors states: " + toSend);
         sessionRegistry.sendToAll(new TextMessage(toJson(toSend)));
     }

@@ -5,6 +5,7 @@ public enum MessageType {
     NEW_PLAYER,
     DELETE_PLAYER,
     ACTOR_STATE,
-    PLAYER_LOSS
+    PLAYER_LOSS,
+    CHAT_MESSAGE
 
 }

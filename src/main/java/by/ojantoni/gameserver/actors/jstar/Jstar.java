@@ -120,6 +120,8 @@ public class Jstar extends AbstractActor implements GameSessionListener {
     @Override
     public void onGameSessionCreate() {
         pace = 0.01;
+        rectangle.x = MathUtils.random(0, Properties.SCREEN_WIDTH - rectangle.width);
+        rectangle.y = 20;
     }
 
     @Override
