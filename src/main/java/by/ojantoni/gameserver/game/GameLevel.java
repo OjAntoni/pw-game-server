@@ -5,9 +5,9 @@ import lombok.Getter;
 import java.util.List;
 
 public enum GameLevel {
-    ONE(List.of("jstar")),
-    TWO(List.of("jstar")),
-    THREE(List.of("jstar", "zawadski", "ato")),
+    ONE(List.of("jstar", "wilk")),
+    TWO(List.of("jstar", "wilk")),
+    THREE(List.of("jstar", "zawadski", "ato", "wilk")),
     FOUR(List.of("jstar", "zawadski", "ato", "wilk"));
 
     public static final int LEVELS_NUMBER = 4;

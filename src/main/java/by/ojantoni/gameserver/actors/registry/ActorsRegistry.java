@@ -41,7 +41,7 @@ public class ActorsRegistry implements GameSessionListener, LevelListener {
         });
     }
 
-    public void updateInGameActors(GameLevel level) {
+    private void updateInGameActors(GameLevel level) {
         currentInGameActors.values().forEach(AbstractActor::pause);
         currentInGameActors = new HashMap<>();
         for (String s : level.getActorNamesInGame()) {
@@ -50,6 +50,7 @@ public class ActorsRegistry implements GameSessionListener, LevelListener {
                 allActors.get(s).resume();
             }
         }
+        currentInGameActors.forEach((k, a) -> a.onGameLevelAdd());
     }
 
     public void updatePositions() {
@@ -76,7 +77,6 @@ public class ActorsRegistry implements GameSessionListener, LevelListener {
     @Override
     public void onGameSessionEnd() {
         allActors.values().forEach(AbstractActor::pause);
-
     }
 
     @Override

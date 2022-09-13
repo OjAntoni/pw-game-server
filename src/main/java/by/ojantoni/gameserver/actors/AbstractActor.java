@@ -29,6 +29,7 @@ public abstract class AbstractActor {
     public void resume(){}
     public Object getState(){return null;}
     public abstract String getId();
+    public void onGameLevelAdd(){};
 
 
 }

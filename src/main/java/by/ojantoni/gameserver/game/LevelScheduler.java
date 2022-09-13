@@ -21,23 +21,6 @@ public class LevelScheduler implements GameSessionListener {
     @Getter
     private int level;
 
-    public void start(){
-        scheduleForLevels = Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                level++;
-                levelListeners.forEach(listener -> listener.onLevelChange(level));
-                level = (level==GameLevel.LEVELS_NUMBER) ? 1: level;
-                log.info("current level = "+level);
-            }
-        }, 0f, Properties.LEVEL_DURATION);
-    }
-
-    public void stop(){
-        level = 0;
-        scheduleForLevels.cancel();
-    }
-
     @Override
     public void onGameSessionCreate() {
         level = 0;
@@ -48,7 +31,7 @@ public class LevelScheduler implements GameSessionListener {
                 levelListeners.forEach(listener -> listener.onLevelChange(level));
                 level = (level>GameLevel.LEVELS_NUMBER) ? 1: level;
             }
-        }, 0f, Properties.LEVEL_DURATION);
+        }, 0f, 10);
     }
 
     @Override
