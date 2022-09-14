@@ -35,6 +35,8 @@ public class GameLoop extends ApplicationAdapter {
     public void render() {
         gameService.updateActors();
         gameService.sendActorStatesToPlayers();
+        gameService.updateObjects();
+        gameService.sendObjectStatesToPlayers();
     }
 
 }

@@ -3,7 +3,12 @@ package by.ojantoni.gameserver.game;
 import by.ojantoni.gameserver.actors.registry.ActorsRegistry;
 import by.ojantoni.gameserver.messages.SimpleMessage;
 import by.ojantoni.gameserver.messages.core.ActorState;
+import by.ojantoni.gameserver.messages.dto.ObjectDto;
 import by.ojantoni.gameserver.messages.types.MessageType;
+import by.ojantoni.gameserver.objects.AbstractObject;
+import by.ojantoni.gameserver.objects.CleanCode;
+import by.ojantoni.gameserver.objects.ObjectRule;
+import by.ojantoni.gameserver.objects.ObjectsRegistry;
 import by.ojantoni.gameserver.ws.SessionRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -26,9 +31,13 @@ public class GameManagementService{
     private SessionRegistry sessionRegistry;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectsRegistry objectsRegistry;
 
     @Autowired
     private List<GameSessionListener> gameSessionListeners;
+    @Autowired
+    private List<ObjectRule> objectRules;
 
     @SneakyThrows
     public void sendActorStatesToPlayers() {
@@ -65,4 +74,33 @@ public class GameManagementService{
         return objectMapper.writeValueAsString(o);
     }
 
+    public void updateObjects() {
+        objectsRegistry.updateState();
+        objectRules.forEach(ObjectRule::process);
+        sendDeletedObjectsToPlayers();
+        objectsRegistry.deleteOutdated();
+        sendObjectsStatesToPlayers();
+    }
+
+    private void sendObjectsStatesToPlayers() {
+        List<SimpleMessage> collect = objectsRegistry.getAll(CleanCode.class).stream()
+                .map(b -> new ObjectDto(b.getId(), b.getName(), b.getCoordinates()))
+                .map(dto -> new SimpleMessage(MessageType.COORD_CLEAN_CODE, toJson(dto)))
+                .collect(Collectors.toList());
+        sessionRegistry.sendToAll(new TextMessage(toJson(collect)));
+    }
+
+    private void sendDeletedObjectsToPlayers() {
+        List<CleanCode> all = objectsRegistry.getAll(CleanCode.class);
+        List<SimpleMessage> collect = all.stream()
+                .filter(AbstractObject::isOutdated)
+                .map(b -> new ObjectDto(b.getId(), b.getName(), b.getCoordinates()))
+                .map(dto -> new SimpleMessage(MessageType.DELETE_CLEAN_CODE, toJson(dto)))
+                .collect(Collectors.toList());
+        sessionRegistry.sendToAll(new TextMessage(toJson(collect)));
+    }
+
+    public void sendObjectStatesToPlayers() {
+
+    }
 }

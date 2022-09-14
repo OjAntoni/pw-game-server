@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class Jstar extends AbstractActor implements GameSessionListener {
     private int leftTimeToBeStopped;
     private boolean normalJstar;
     private boolean stoppedJstar;
-    @Setter
+    @Setter @Getter
     private double pace;
 
     @PostConstruct
