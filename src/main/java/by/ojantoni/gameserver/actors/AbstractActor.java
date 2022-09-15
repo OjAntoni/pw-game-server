@@ -22,14 +22,9 @@ public abstract class AbstractActor {
     }
     public void setLevel(int level){}
     public void resetTimeAlive(){timeAlive=0;}
-    public boolean shouldBeDeletedFromGame(){
-        return false;
-    }
+    public abstract boolean isAlive();
     public void pause(){}
     public void resume(){}
     public Object getState(){return null;}
     public abstract String getId();
-    public void onGameLevelAdd(){};
-
-
 }

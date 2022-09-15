@@ -55,7 +55,6 @@ public class GameManagementService{
     }
 
     public void updateActors() {
-        actorsRegistry.deleteDeadActors();
         actorsRegistry.updatePositions();
     }
 

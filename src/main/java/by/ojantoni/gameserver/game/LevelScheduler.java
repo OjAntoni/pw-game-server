@@ -30,6 +30,7 @@ public class LevelScheduler implements GameSessionListener {
                 level++;
                 levelListeners.forEach(listener -> listener.onLevelChange(level));
                 level = (level>GameLevel.LEVELS_NUMBER) ? 1: level;
+                log.info("Setting level "+level);
             }
         }, 0f, 10);
     }

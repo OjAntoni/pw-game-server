@@ -7,6 +7,7 @@ import by.ojantoni.gameserver.messages.core.Coordinates;
 import by.ojantoni.gameserver.util.Properties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +15,10 @@ import java.util.Random;
 import java.util.function.Function;
 
 @Component
-public class Wilk extends AbstractActor implements GameSessionListener {
+@Slf4j
+public class Wilk extends AbstractActor{
     @Autowired
     private Jstar jstar;
-    private boolean isActive = true;
     private float pace = 0.2f;
     private boolean isAlive = true;
 
@@ -27,7 +28,7 @@ public class Wilk extends AbstractActor implements GameSessionListener {
 
     @Override
     public void calculateNewCoordinates() {
-        if(isActive){
+        if(isAlive){
             Rectangle jstarRectangle = jstar.getRectangle();
             rectangle.y = rectangle.y + ((jstarRectangle.y - rectangle.y) / Math.abs(jstarRectangle.y - rectangle.y)) * pace;
             rectangle.x = rectangle.x + ((jstarRectangle.x - rectangle.x) / Math.abs(jstarRectangle.x - rectangle.x)) * pace;
@@ -38,26 +39,23 @@ public class Wilk extends AbstractActor implements GameSessionListener {
     private void checkForCollisionsWithJstar() {
         Rectangle jr = jstar.getRectangle();
         float dst = Vector2.dst(jr.x, jr.y, rectangle.x, rectangle.y);
-        if(dst<Properties.JSTAR_WILK_MIN_DISTANCE){
+        if(dst<Properties.JSTAR_WILK_MIN_DISTANCE && isAlive){
             jstar.stop(6);
             jstar.setPace(0.005);
             isAlive = false;
+            log.info("setting isAlive = false");
         }
     }
 
     @Override
-    public boolean shouldBeDeletedFromGame() {
-        return !isAlive;
-    }
-
-    @Override
     public void pause() {
-        isActive = false;
+        isAlive = false;
     }
 
     @Override
     public void resume() {
-        isActive = true;
+        isAlive = true;
+        setInitCoord();
     }
 
     private void setInitCoord() {
@@ -82,20 +80,7 @@ public class Wilk extends AbstractActor implements GameSessionListener {
     }
 
     @Override
-    public void onGameSessionCreate() {
-        isAlive = true;
-    }
-
-    @Override
-    public void onGameSessionEnd() {
-
-    }
-
-    @Override
-    public void onGameLevelAdd() {
-        if(!isAlive){
-            setInitCoord();
-            isAlive = true;
-        }
+    public boolean isAlive() {
+        return isAlive;
     }
 }

@@ -29,6 +29,7 @@ public class Jstar extends AbstractActor implements GameSessionListener {
     private boolean stoppedJstar;
     @Setter @Getter
     private double pace;
+    private boolean isAlive = true;
 
     @PostConstruct
     private void init() {
@@ -65,6 +66,7 @@ public class Jstar extends AbstractActor implements GameSessionListener {
                 }
             }
         }, 0f, 1f);
+        isAlive = true;
     }
 
     @Override
@@ -77,10 +79,20 @@ public class Jstar extends AbstractActor implements GameSessionListener {
         setNearestPlayer();
         if (canBeMoved() && playerToSneak!=null) {
             Coordinates coord = playerToSneak.getCoordinates();
-            rectangle.y = (float) (rectangle.y + ((coord.y - rectangle.y) / Math.abs(coord.y - rectangle.y)) * pace / 10);
-            rectangle.x = (float) (rectangle.x + ((coord.x - rectangle.x) / Math.abs(coord.x - rectangle.x)) * pace / 10);
+            if(coord.y != rectangle.y){
+                rectangle.y = (float) (rectangle.y + ((coord.y - rectangle.y) / Math.abs(coord.y - rectangle.y)) * pace / 10);
+            }
+            if(coord.x != rectangle.x){
+                rectangle.x = (float) (rectangle.x + ((coord.x - rectangle.x) / Math.abs(coord.x - rectangle.x)) * pace / 10);
+            }
+
         }
         incrementPace();
+    }
+
+    @Override
+    public boolean isAlive() {
+        return isAlive;
     }
 
     private void setNearestPlayer() {
@@ -107,6 +119,7 @@ public class Jstar extends AbstractActor implements GameSessionListener {
         if (jstarschedule != null) {
             jstarschedule.cancel();
         }
+        isAlive = false;
     }
 
     @Override

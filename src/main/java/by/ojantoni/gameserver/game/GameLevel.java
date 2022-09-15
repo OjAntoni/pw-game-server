@@ -7,8 +7,8 @@ import java.util.List;
 public enum GameLevel {
     ONE(List.of("jstar", "wilk")),
     TWO(List.of("jstar", "wilk")),
-    THREE(List.of("jstar", "zawadski", "ato", "wilk")),
-    FOUR(List.of("jstar", "zawadski", "ato", "wilk"));
+    THREE(List.of("jstar", "wilk")),
+    FOUR(List.of("jstar", "wilk"));
 
     public static final int LEVELS_NUMBER = 4;
     @Getter
